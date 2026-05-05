@@ -49,3 +49,10 @@ parametreleri eklenir.
 sudo sysctl -p
 ```
 ile aktif edilir.
+
+```bash
+vi /etc/modprobe.d/conntrack.conf
+```
+options nf_conntrack hashsize=65536
+
+değeri eklenir
