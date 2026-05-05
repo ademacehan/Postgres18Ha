@@ -1,0 +1,25 @@
+
+```bash 
+vi /etc/systemd/system/patroni.service
+```
+
+```bash
+[Unit]
+Description=Runners to orchestrate a high-availability PostgreSQL
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=postgres
+Group=postgres
+# VENV içindeki python'u kullanıyoruz:
+ExecStart=/opt/patroni/venv/bin/patroni /etc/patroni/patroni.yml
+KillMode=process
+TimeoutSec=30
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
