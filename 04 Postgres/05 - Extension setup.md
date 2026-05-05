@@ -14,7 +14,8 @@ dnf install -y postgresql18-plpython3
 
 ### timescale 
 ```bash 
-curl -s https://packagecloud.io/install/repositories/timescale/timescaledb/script.rpm.sh | sudo bash
+ dnf search timescaledb
+ dnf install -y timescaledb_18.x86_64
 ```
 
 ```bash
