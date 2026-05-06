@@ -13,7 +13,7 @@ vi /etc/systemd/system/haproxy.service.d/override.conf
 ```  
 Override.conf içerisine  
 [Service]  
-LimitNOFILE=100000  
+LimitNOFILE=1000000  
 eklenir.
 
 bu işlemlerden sonra
@@ -31,7 +31,7 @@ net.ipv4.tcp_max_syn_backlog = 65535
 net.core.netdev_max_backlog = 65535
 net.ipv4.ip_local_port_range = 10000 65535
 net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_max_tw_buckets = 262144
+net.ipv4.tcp_max_tw_buckets = 1024000
 net.ipv4.tcp_keepalive_time = 600
 net.ipv4.tcp_keepalive_intvl = 30
 net.ipv4.tcp_keepalive_probes = 5
@@ -40,8 +40,9 @@ net.ipv4.tcp_rmem = 4096 87380 16777216
 net.ipv4.tcp_wmem = 4096 65536 16777216
 net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216
-net.netfilter.nf_conntrack_max = 262144
+net.netfilter.nf_conntrack_max = 1024000
 net.netfilter.nf_conntrack_tcp_timeout_established = 3600
+fs.file-max = 1000000
 ``` 
 
 parametreleri eklenir.  
@@ -53,6 +54,13 @@ ile aktif edilir.
 ```bash
 vi /etc/modprobe.d/conntrack.conf
 ```
-options nf_conntrack hashsize=65536
+options nf_conntrack hashsize=128000
 
 değeri eklenir
+
+/etc/security/limits.d/99-haproxy.conf
+içerisine aşağıdaki parametreler eklenir.  
+```bash
+haproxy  soft  nofile  1000000
+haproxy  hard  nofile  1000000
+```
