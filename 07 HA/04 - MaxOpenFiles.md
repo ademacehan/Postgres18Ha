@@ -64,3 +64,8 @@ içerisine aşağıdaki parametreler eklenir.
 haproxy  soft  nofile  1000000
 haproxy  hard  nofile  1000000
 ```
+
+Akitf contract sayısını görüntülemek için
+```bash
+watch -n 1 cat /proc/sys/net/netfilter/nf_conntrack_count
+```
