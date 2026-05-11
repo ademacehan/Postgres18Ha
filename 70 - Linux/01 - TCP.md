@@ -116,18 +116,47 @@ sysctl net.ipv4.tcp_rmem
 sysctl net.ipv4.tcp_wmem
 ```
 
+### Değerlerin değiştirilmesi
 ```bash
-cat /proc/sys/net/core/somaxconn
-cat /proc/sys/net/ipv4/tcp_max_syn_backlog
-cat /proc/sys/net/core/netdev_max_backlog
-cat /proc/sys/net/ipv4/tcp_fin_timeout
-cat /proc/sys/net/ipv4/tcp_keepalive_time
-cat /proc/sys/net/ipv4/tcp_tw_reuse
-cat /proc/sys/net/core/rmem_max
-cat /proc/sys/net/core/wmem_max
-cat /proc/sys/net/ipv4/tcp_rmem
-cat /proc/sys/net/ipv4/tcp_wmem
+/etc/sysctl.conf
 ```
+
+```bash
+# sysctl settings are defined through files in
+# /usr/lib/sysctl.d/, /run/sysctl.d/, and /etc/sysctl.d/.
+#
+# Vendors settings live in /usr/lib/sysctl.d/.
+# To override a whole file, create a new file with the same in
+# /etc/sysctl.d/ and put new settings there. To override
+# only specific settings, add a file with a lexically later
+# name in /etc/sysctl.d/ and put new settings there.
+#
+# For more information, see sysctl.conf(5) and sysctl.d(5).
+net.core.somaxconn = 65535
+net.core.netdev_max_backlog = 65535
+
+net.ipv4.tcp_max_syn_backlog = 65535
+net.ipv4.ip_local_port_range = 10000 65535
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.tcp_max_tw_buckets = 1024000
+net.ipv4.tcp_keepalive_time = 300
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.tcp_rmem = 4096 87380 33554432
+net.ipv4.tcp_wmem = 4096 65536 33554432
+
+net.core.rmem_max = 33554432
+net.core.wmem_max = 33554432
+
+net.netfilter.nf_conntrack_max = 1024000
+net.netfilter.nf_conntrack_tcp_timeout_established = 3600
+
+fs.file-max = 2000000
+
+```
+
+sysctl -p aktif edilir.
 
 ### Değerlerin anlık runtinme değiştirilmesi
 ```
@@ -141,4 +170,10 @@ sudo sysctl -w net.core.rmem_max = 16777216
 sudo sysctl -w net.core.wmem_max = 16777216
 sudo sysctl -w net.ipv4.tcp_rmem = 4096 87380 16777216
 sudo sysctl -w net.ipv4.tcp_wmem = 4096 65536 16777216
+```
+
+
+### Aktif slot sayısı
+```bash
+watch -n 1 "cat /proc/net/sockstat"
 ```
